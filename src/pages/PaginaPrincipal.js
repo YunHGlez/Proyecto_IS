@@ -1,8 +1,10 @@
 import React from 'react';
 import { useState } from 'react';
+
 import '../assets/styles/PaginaPrincipal.css';
 import SuperAdmin from '../components/SuperAdmin.js';
 import Header from "../components/Header";
+import Participante from '../components/Participante.js';
 
 const PaginaPrincipal = (props) => {
   const [index, setIndex] = useState(props.rol);
@@ -20,7 +22,7 @@ const PaginaPrincipal = (props) => {
     content = <p>Administrador</p>
   }
   if(index === 2){
-    content = <p>Participante</p>
+    content = <Participante onChangeContent={changeContent}/>
   }
 
   return (
