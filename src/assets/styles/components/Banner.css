@@ -1,0 +1,19 @@
+.banner-div {
+    display: flex;
+    width: 100%;
+    height: calc(89vh);
+}
+
+.banner-div img {
+    width: 0px;
+    flex-grow: 1;
+    object-fit: cover;
+    filter: brightness(80%);
+    transition: .7s ease;
+}
+
+.banner-div img:hover {
+    width: 100%;
+    opacity: 1;
+    filter: brightness(100%);
+}
