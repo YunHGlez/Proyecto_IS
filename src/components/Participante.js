@@ -4,10 +4,9 @@ import { exitoCerrar } from  '../assets/toastify';
 
 const Participante = () => {
     return (
-        <>
-            <p className='pruebita'>Participante</p>
-            <button className='prebitaa' onClick={exitoCerrar("EXITO CERRAR")}>CLICK</button>
-        </>
+        <div>
+            <p className='pruebita'>Perfil</p>
+        </div>
     );
 };
 

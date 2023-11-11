@@ -28,13 +28,13 @@ const PaginaPrincipal = (props) => {
   return (
     <>
     <Header isThereButton={false} logoutButton={true} logout={props.logout}/>
-    <div className="App">
-        <div id="navbar">
-          <button id="navelem" onClick={() => { changeContent(0); }}> 
+    <div className="App bodyJJ">
+        <div className= "navbar_header" id="navbar">
+          <button className='buttonJJ' id="navelem" onClick={() => { changeContent(0); }}> 
             SuperAdmin</button>
-          <button id="navelem" onClick={() => { changeContent(1); }}> 
+          <button className='buttonJJ' id="navelem" onClick={() => { changeContent(1); }}> 
             Administrador</button>
-          <button id="navelem" onClick={() => { changeContent(2); }}> 
+          <button className='buttonJJ' id="navelem" onClick={() => { changeContent(2); }}> 
             Participante</button>
         </div>
         {content}
