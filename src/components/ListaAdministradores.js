@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import '../assets/styles/SuperAdmin.css';
+import '../assets/styles/TablaBuscar.css';
 
 export default function ListaAdministradores(props) {
   function FilterableAdminTable({ admins }) {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../assets/styles/SuperAdmin.css';
+import '../assets/styles/TablaCrear.css';
 
 const NuevoAdministrador = (props) => {
   const [enteredName, setEnteredName] = useState('');
