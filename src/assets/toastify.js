@@ -47,3 +47,36 @@ export function exitoCierraSolo(mensaje, colorInicio = "#5A8E3E", colorFin = "#0
 export function exitoCerrar(mensaje, colorInicio = "#5A8E3E", colorFin = "#00A605") {
     Toastify(crearNotificacionExito(mensaje, -1, true, colorInicio, colorFin)).showToast();
 }
+
+/**
+ * Notificación de advertencia que se muestra al usuario.
+ * Se cierra mensaje después de 5 segundos.
+ * @param {*} mensaje Es el mensaje que se le muestra al usuario.
+ * @param {*} colorInicio Color de inicio del gradiente.
+ * @param {*} colorFin Color de fin del gradiente.
+ */
+export function advertenciaCierraSolo (mensaje, colorInicio = "#FFD700", colorFin = "#FFA500") {
+    Toastify(crearNotificacionExito(mensaje, 5000, false, colorInicio, colorFin)).showToast();
+}
+
+/**
+ * Notificación de peligro que se muestra al usuario.
+ * Se cierra mensaje después de 5 segundos.
+ * @param {*} mensaje Es el mensaje que se le muestra al usuario.
+ * @param {*} colorInicio Color de inicio del gradiente.
+ * @param {*} colorFin Color de fin del gradiente.
+ */
+export function peligroCierraSolo (mensaje, colorInicio = "#ff0000", colorFin = "#b70505") {
+    Toastify(crearNotificacionExito(mensaje, 5000, false, colorInicio, colorFin)).showToast();
+}
+
+/**
+ * Notificación de peligro que se muestra al usuario.
+ * Requiere que el usuario haga clic en la cruz para cerrarla.
+ * @param {*} mensaje Es el mensaje que se le muestra al usuario.
+ * @param {*} colorInicio Color de inicio del gradiente.
+ * @param {*} colorFin Color de fin del gradiente.
+ */
+export function peligroCerrar (mensaje, colorInicio = "#ff0000", colorFin = "#b70505") {
+    Toastify(crearNotificacionExito(mensaje, -1, true, colorInicio, colorFin)).showToast();
+}

@@ -2,7 +2,11 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import {
     faGamepad,
     faDesktop,
-    faMobile
+    faMobile,
+    faTrash,
+    faPen,
+    faEye,
+    faEyeSlash
 } from '@fortawesome/free-solid-svg-icons';
 import { 
     faFacebook,
@@ -20,5 +24,9 @@ library.add(
     faPlaystation,
     faGamepad,
     faDesktop,
-    faMobile  
+    faMobile,
+    faTrash,
+    faPen,
+    faEye,
+    faEyeSlash  
 );
