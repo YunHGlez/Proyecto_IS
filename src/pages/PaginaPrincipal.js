@@ -1,8 +1,10 @@
 import React from 'react';
 import { useState } from 'react';
+
 import '../assets/styles/PaginaPrincipal.css';
 import SuperAdmin from '../components/SuperAdmin.js';
 import Header from "../components/Header";
+import Participante from '../components/Participante.js';
 
 const PaginaPrincipal = (props) => {
   const [index, setIndex] = useState(props.rol);
@@ -20,19 +22,19 @@ const PaginaPrincipal = (props) => {
     content = <p>Administrador</p>
   }
   if(index === 2){
-    content = <p>Participante</p>
+    content = <Participante onChangeContent={changeContent}/>
   }
 
   return (
     <>
     <Header isThereButton={false} logoutButton={true} logout={props.logout}/>
-    <div className="App">
-        <div id="navbar">
-          <button id="navelem" onClick={() => { changeContent(0); }}> 
+    <div className="App bodyJJ">
+        <div className= "navbar_header" id="navbar">
+          <button className='buttonJJ' id="navelem" onClick={() => { changeContent(0); }}> 
             SuperAdmin</button>
-          <button id="navelem" onClick={() => { changeContent(1); }}> 
+          <button className='buttonJJ' id="navelem" onClick={() => { changeContent(1); }}> 
             Administrador</button>
-          <button id="navelem" onClick={() => { changeContent(2); }}> 
+          <button className='buttonJJ' id="navelem" onClick={() => { changeContent(2); }}> 
             Participante</button>
         </div>
         {content}

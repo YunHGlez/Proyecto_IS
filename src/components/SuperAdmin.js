@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import '../assets/styles/SuperAdmin.css';
+import '../assets/styles/PaginaPrincipal.css';
 import ListaAdministradores from './ListaAdministradores.js';
 import NuevoAdministrador from './NuevoAdministrador.js';
 
@@ -41,7 +42,7 @@ const SuperAdmin = () => {
 
     return (
       <div>
-        <center><h1>Administradores</h1></center>
+        <center><h1 className='h1JJ'>Administradores</h1></center>
         <div className='create-section'>
           <NuevoAdministrador onSaveAdminData={addAdminHandler} id={maxid} />
         </div>

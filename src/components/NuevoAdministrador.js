@@ -36,7 +36,7 @@ const NuevoAdministrador = (props) => {
 
   return (
     <form className="create-table" onSubmit={submitHandler}>
-    <h3>Agregar nuevos administradores</h3>
+    <h3 className='h3JJ'>Agregar nuevos administradores</h3>
     <center>
       <div className='create-controls'>
         <div className='create-control'>

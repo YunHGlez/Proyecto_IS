@@ -67,3 +67,7 @@
 .consolas {
     font-size: 20px;
 }
+
+.footer-container ul li a:hover, .recursos-dos-container li a:hover {
+    text-decoration: underline;
+}

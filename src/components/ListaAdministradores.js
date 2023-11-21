@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import '../assets/styles/TablaBuscar.css';
+import '../assets/styles/PaginaPrincipal.css';
 
 export default function ListaAdministradores(props) {
   function FilterableAdminTable({ admins }) {
@@ -58,7 +59,7 @@ export default function ListaAdministradores(props) {
         <thead>
           <tr>
             <th colSpan="4">
-            <h3>Lista de Administradores</h3>
+            <h3 className='h3JJ'>Lista de Administradores</h3>
             </th>
           </tr>
           <tr id="check">
@@ -77,7 +78,7 @@ export default function ListaAdministradores(props) {
     filterID, onFilterIDChange, filterEmail, onFilterEmailChange }) {
     return (
       <form className='searchBar'>
-        <h3>Búsqueda de Administradores</h3>
+        <h3 className='h3JJ'>Búsqueda de Administradores</h3>
         <div className='search-control'>
           <div className='search-control'>
           <label>Filtrar por ID:</label>
@@ -99,7 +100,7 @@ export default function ListaAdministradores(props) {
           </div>  
         </div>
         <div className='search-actions'>
-          <button id="resetValues" type="reset" onClick={() => { reset(); }}>
+          <button className="buttonJJ" id="resetValues" type="reset" onClick={() => { reset(); }}>
             Borrar Filtros</button>
         </div>
       </form>
@@ -134,9 +135,9 @@ export default function ListaAdministradores(props) {
         <td>{admin.name}</td>
         <td>{admin.email}</td>
         <td> 
-          <button onClick={() => { Update(); }}> 
+          <button className='buttonJJ' onClick={() => { Update(); }}> 
             Editar</button>
-          <button onClick={() => 
+          <button className='buttonJJ' onClick={() => 
             { props.onDeleteUserData(admin);}}>
             Eliminar</button>
         </td>
@@ -191,7 +192,7 @@ export default function ListaAdministradores(props) {
 
             <input type='password' placeholder="Nueva contraseña" onChange={handlePasswordChange} required/>
 
-            <button onClick={() => { submitHandler(admin.id); }}> Guardar Cambios</button>
+            <button className='buttonJJ' onClick={() => { submitHandler(admin.id); }}> Guardar Cambios</button>
         </div>
       </td>
     );
