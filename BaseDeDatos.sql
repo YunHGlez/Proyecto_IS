@@ -32,9 +32,9 @@ CREATE TABLE Torneo
 
 CREATE TABLE Reglas
 (
-  id INT NOT NULL,
+  idTorneo SERIAL NOT NULL,
   regla VARCHAR(200) NOT NULL,
   PRIMARY KEY (regla),
-  FOREIGN KEY (id) REFERENCES Torneo(idTorneo)
+  FOREIGN KEY (idTorneo) REFERENCES Torneo(idTorneo)
 );
 
