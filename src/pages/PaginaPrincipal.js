@@ -5,6 +5,7 @@ import '../assets/styles/PaginaPrincipal.css';
 import SuperAdmin from '../components/SuperAdmin.js';
 import Header from "../components/Header";
 import Participante from '../components/Participante.js';
+import Administrador from '../components/Administrador';
 
 const PaginaPrincipal = (props) => {
   const [index, setIndex] = useState(props.rol);
@@ -19,7 +20,7 @@ const PaginaPrincipal = (props) => {
     content = <SuperAdmin onChangeContent={changeContent}/>
   }
   if(index === 1){
-    content = <p>Administrador</p>
+    content = <Administrador onChangeContent={changeContent}/>
   }
   if(index === 2){
     content = <Participante onChangeContent={changeContent}/>
