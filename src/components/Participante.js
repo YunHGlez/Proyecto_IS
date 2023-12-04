@@ -6,11 +6,11 @@ import { exitoCerrar, exitoCierraSolo, advertenciaCierraSolo } from '../assets/t
 import Avatar from '../assets/images/avatar.gif';
 
 /**
- * Estte usuario se debe obtener de la base de datos, ya sea que se pase el correo como 
+ * Este usuario se debe obtener de la base de datos, ya sea que se pase el correo como 
  * parametro a participante y a hacer la consulta aqui, mediante otro metodo. O que en Participante
  * se pase el JSON con al informacion del usuario.
  */
-let usario = [{
+let usuario = [{
     id: 1,
     nombre: 'Juan',
     correo: 'user1@gmail.com',
@@ -38,9 +38,9 @@ const editarPerfil = (event) => {
 };
 
 const Participante = () => {
-    const [nombre, setNombre] = React.useState(usario[0].nombre);
-    const [correo, setCorreo] = React.useState(usario[0].correo);
-    const [contraseña, setContraseña] = React.useState(usario[0].contraseña);
+    const [nombre, setNombre] = React.useState(usuario[0].nombre);
+    const [correo, setCorreo] = React.useState(usuario[0].correo);
+    const [contraseña, setContraseña] = React.useState(usuario[0].contraseña);
     const [mostrarContraseña, setMostrarContraseña] = React.useState(false);
     const toggleMostrarContraseña = () => {
         setMostrarContraseña(!mostrarContraseña);
@@ -54,7 +54,7 @@ const Participante = () => {
                 </div>
                 <form className='perfil-form-p'>
                     <div>
-                        <h3>ID: {usario[0].id}</h3>
+                        <h3>ID: {usuario[0].id}</h3>
                     </div>
                     <div className='item-form-perfil-p'>
                         <ItemForm

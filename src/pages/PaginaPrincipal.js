@@ -17,7 +17,7 @@ const PaginaPrincipal = (props) => {
   };
 
   if(index === 0){
-    content = <SuperAdmin onChangeContent={changeContent}/>
+    content = <SuperAdmin onChangeContent={changeContent} admins={props.list}/>
   }
   if(index === 1){
     content = <Administrador onChangeContent={changeContent}/>

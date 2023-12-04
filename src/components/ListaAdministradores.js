@@ -37,7 +37,7 @@ export default function ListaAdministradores(props) {
   function AdminTable({ admins, 
     filterName, filterID, filterEmail }) {
     const rows = [];
-  
+      console.log(admins)
     admins.forEach((admin) => {
       if (filterID !== '' && 
         admin.id !== parseInt(filterID)) {

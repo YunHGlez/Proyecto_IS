@@ -10,6 +10,9 @@ def get_all_users():
 def get_user_by_key(correo=''):
     return Usuario.query.filter(Usuario.correo == correo).first()
 
+def get_user_by_id(id=''):
+    return Usuario.query.filter(Usuario.idUsuario == id).first()
+
 def search_user(nombre='', correo='', contraseña=''):
     if(nombre == '' and correo == '' and contraseña == ''):
         return get_all_users()
@@ -30,6 +33,13 @@ def user_check_password(email, contraseña):
         return False
     return sha256(cipher(contraseña)).hexdigest() == usuario.contraseña
     
+def get_users_by_role(rol):
+    usuarios = Usuario.query.filter(Usuario.rol == rol).all()
+    lista = []
+    for usuario in usuarios:
+        lista.append({'id': usuario.idUsuario, 'name': usuario.nombreUsuario, 
+                      'email': usuario.correo, 'password': usuario.contraseña})
+    return lista
 
 def add_user(nombre='', correo='', contraseña='', rol=''):
     if(nombre == ''):
@@ -55,34 +65,32 @@ def add_user(nombre='', correo='', contraseña='', rol=''):
     db.session.commit()
     return 0
 
-def update_user(correo='', nombre='', nuevoNombre='', nuevoCorreo='', passwd=''):
-    usuario = None
-    if(correo != '' or nombre != ''):
-        usuario = search_user(nombre, correo, '').first()
+def update_user(id='', nuevoNombre='', nuevoCorreo='', passwd=''):
+    usuario = get_user_by_id(id)
     if(usuario != None):
         if(nuevoCorreo == '' and nuevoNombre == '' and passwd == ''):
             return usuario
-        if(nuevoCorreo != ''):
+        if(nuevoCorreo != '' and usuario.correo != nuevoCorreo):
             if(get_user_by_key(nuevoCorreo) != None):
-                return None
+                return 2
             usuario.correo = nuevoCorreo
         if(nuevoNombre != ''):
-            usuario.nombre = nuevoNombre
+            usuario.nombreUsuario = nuevoNombre
         if(passwd != ''):
             contraseña = sha256(cipher(passwd)).hexdigest()
             usuario.contraseña = contraseña
         try:
             db.session.commit()
         except:
-            return None
+            return 3
     else:
-        return None
-    return usuario
+        return 1
+    return 0
 
-def delete_user(correo):
-    usuario = get_user_by_key(correo)
+def delete_user(id):
+    usuario = get_user_by_id(id)
     if(usuario != None):
-        consult = Usuario.query.filter(Usuario.correo == correo)
+        consult = Usuario.query.filter(Usuario.idUsuario == id)
         datos = str(consult.first())
         consult.delete(synchronize_session=False)
         db.session.commit()

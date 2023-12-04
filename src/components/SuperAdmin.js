@@ -4,40 +4,95 @@ import '../assets/styles/PaginaPrincipal.css';
 import ListaAdministradores from './ListaAdministradores.js';
 import NuevoAdministrador from './NuevoAdministrador.js';
 
-const SuperAdmin = () => {
-  const [admins, setAdmins] = useState(ADMINS);
+const SuperAdmin = (props) => {
+  let [admins, setAdmins] = useState(props.admins);
   const [maxid, setMaxID] = useState(id);
+
+  async function addUser (admin) {
+    const response = await fetch('http://127.0.0.1:5000/PaginaPrincipal', {
+      method:'POST',
+      body: JSON.stringify({'action': 'add', 'name': admin.name, 
+        'email': admin.email, 'password': admin.password}),
+      headers: {
+        'Content-Type':'application/json'
+      }
+    });
+    const data = await response.json();
+    if (data.error !== undefined) {
+      alert("ERROR: " + data.error);
+    } else {
+      setAdmins((prevAdmins) => {
+        admins = [admin, ...prevAdmins]
+        return admins;
+      });
+      setMaxID((prevID) => {
+        id = prevID+1
+        return id;
+      });
+      alert('Administrador agregado con éxito');
+    }
+  }
+
   const addAdminHandler = (admin) => {
-    setAdmins((prevAdmins) => {
-      ADMINS = [admin, ...prevAdmins]
-      return ADMINS;
+    addUser(admin)
+  }
+
+  async function deleteUser (admin) {
+    const response = await fetch('http://127.0.0.1:5000/PaginaPrincipal', {
+      method:'POST',
+      body: JSON.stringify({'id' : admin.id, action : 'delete' }),
+      headers: {
+        'Content-Type':'application/json'
+      }
     });
-    setMaxID((prevID) => {
-      id = prevID+1
-      return id;
-    });
-    alert('Administrador agregado con éxito');
+    const data = await response.json();
+    if (data.error !== undefined) {
+      alert("ERROR: " + data.error);
+      return 1
+    } else {
+      setAdmins((prevAdmins) =>{
+        admins = prevAdmins.filter(a =>
+          a.id !== admin.id
+        )
+        return admins;
+        });
+        alert('Administrador eliminado con éxito');
+      return 0
+    }
   }
 
   const deleteAdminHandler = (admin) =>{
-      setAdmins((prevAdmins) =>{
-        ADMINS = prevAdmins.filter(a =>
-          a.id !== admin.id
-        )
-        return ADMINS;
-        });
-        alert('Administrador eliminado con éxito');
+    deleteUser(admin)
+  }
+
+  async function updateUser (admin) {
+    const response = await fetch('http://127.0.0.1:5000/PaginaPrincipal', {
+      method:'POST',
+      body: JSON.stringify({'id' : admin.id, action : 'update', 'name': admin.name,
+       'email': admin.email, 'password': admin.password }),
+      headers: {
+        'Content-Type':'application/json'
+      }
+    });
+    const data = await response.json();
+    if (data.error !== undefined) {
+      alert("ERROR: " + data.error);
+      return 1
+    } else {
+      setAdmins(admins.map(prevAdmin => {
+        if (prevAdmin.id === admin.id) {
+          return { ...prevAdmin, name: admin.name, email: admin.email, password: admin.password };
+        } else {
+          return prevAdmin;
+        }
+      }));
+        alert('Administrador actualizado con éxito');
+      return 0
     }
+  }
 
   const updateAdminHandler = (admin) =>{
-    setAdmins(admins.map(prevAdmin => {
-      if (prevAdmin.id === admin.id) {
-        return { ...prevAdmin, name: admin.name, email: admin.email, password: admin.password };
-      } else {
-        return prevAdmin;
-      }
-    }));
-      alert('Administrador actualizado con éxito');
+    updateUser(admin)
     }
 
     return (
@@ -54,13 +109,5 @@ const SuperAdmin = () => {
     );
   };
   let id = 7;
-  let ADMINS = [
-    {id: 6, name: "admin6", email: "correo6@gmail.com", password: "password6"},
-    {id: 5, name: "admin5", email: "correo5@gmail.com", password: "password5"},
-    {id: 4, name: "admin4", email: "correo4@gmail.com", password: "password4"},
-    {id: 3, name: "admin3", email: "correo3@gmail.com", password: "password3"},
-    {id: 2, name: "admin2", email: "correo2@gmail.com", password: "password2"},
-    {id: 1, name: "admin1", email: "correo1@gmail.com", password: "password1"}
-  ];
   
   export default SuperAdmin;

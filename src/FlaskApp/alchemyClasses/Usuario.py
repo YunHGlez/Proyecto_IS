@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 
 class Usuario(db.Model):
     __tablename__ = 'Usuario'
+    idUsuario = Column(Integer)
     nombreUsuario = Column(String(40))
     correo = Column(String(50), primary_key=True)    
     contraseña = Column(String(64))
@@ -16,4 +17,4 @@ class Usuario(db.Model):
         self.rol=rol
     
     def __str__(self):
-        return f'Nombre: {self.nombre}\nCorreo: {self.correo} \nContraseña: {self.contraseña} \nRol: {self.rol}'
+        return f'Nombre: {self.nombreUsuario}\nCorreo: {self.correo} \nContraseña: {self.contraseña} \nRol: {self.rol}'

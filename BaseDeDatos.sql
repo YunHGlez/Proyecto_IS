@@ -26,8 +26,7 @@ CREATE TABLE Torneo
   consola VARCHAR(30) NOT NULL,
   correo VARCHAR(50),
   estatus VARCHAR(20),
-  PRIMARY KEY (idTorneo),
-  FOREIGN KEY (correo) REFERENCES Usuario(correo)
+  PRIMARY KEY (idTorneo)
 );
 
 CREATE TABLE Reglas
@@ -37,4 +36,6 @@ CREATE TABLE Reglas
   PRIMARY KEY (regla),
   FOREIGN KEY (idTorneo) REFERENCES Torneo(idTorneo)
 );
+
+select * from Usuario
 

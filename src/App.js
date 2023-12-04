@@ -10,20 +10,32 @@ import PaginaPrincipal from "./pages/PaginaPrincipal";
 import { useState } from 'react';
 
 function App() {
-  const [user, setUser] = useState(-1);
+  const [lista, setLista] = useState(initList)
+  const [user, setUser] = useState(initUser);
+
   const navigate = useNavigate();
 
-  const userRole = (value) => {
-    if(value === 'super administrador')
+  const userRole = (value, list) => {
+    if(value === 'superAdministrador')
       setUser(0);
     if(value === 'administrador')
       setUser(1);
     if(value === 'participante')
       setUser(2);
+    setLista(list)
   };
 
   const logout = () => {
     setUser(-1)
+    navigate("/")
+  }
+ 
+  function initList(){
+      return []
+  }
+
+  function initUser(){
+    return -1
   }
 
   return (
@@ -31,7 +43,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home logout={logout}/>} />
         <Route path="/AccesoYRegistro" element={<AccessoYRegistro add={addUser} read={readUser}/>} />
-        <Route path="/PaginaPrincipal" element={<PaginaPrincipal rol={user} logout={logout}/>} />
+        <Route path="/PaginaPrincipal" element={<PaginaPrincipal rol={user} logout={logout} list={lista}/>} />
       </Routes>
       <Footer />
     </>
@@ -47,9 +59,8 @@ function App() {
       }
     });
     const data = await response.json();
-    console.log(data);
     if (data.error !== undefined) {
-      alert("ERROR! " + data.error);
+      alert("ERROR: " + data.error);
     } else {
       alert("Usuario registrado!");
     }
@@ -64,11 +75,10 @@ function App() {
       }
     });
     const data = await response.json();
-    console.log(data);
     if (data.error !== undefined) {
-      alert("ERROR! " + data.error);
+      alert("ERROR: " + data.error);
     } else {
-      userRole(data.role)
+      userRole(data.role, data.list)
       alert("¡Bienvenido de vuelta " + data.nombre + "!")
       navigate("/PaginaPrincipal")
     }
