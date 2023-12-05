@@ -21,14 +21,8 @@ const Administrador = (props) => {
     if (data.error !== undefined) {
       alert("ERROR: " + data.error);
     } else {
-      setTorneos((prevTorneos) => {
-        torneos = [torneo, ...prevTorneos]
-        return torneos;
-      });
-      setMaxID((prevID) => {
-        maxid = prevID+1
-        return maxid;
-      });
+      setTorneos(data.list)
+      setMaxID(data.maxid);
       alert('Torneo agregado con éxito');
     }
   }
@@ -50,13 +44,8 @@ const Administrador = (props) => {
       alert("ERROR: " + data.error);
       return 1
     } else {
-      setTorneos((prevTorneos) =>{
-        torneos = prevTorneos.filter(a =>
-          a.idTorneo !== torneo.idTorneo
-        )
-        return torneos;
-        });
-        alert('Torneo eliminado con éxito');
+      setTorneos(data.list);
+      alert('Torneo eliminado con éxito');
       return 0
     }
   }
@@ -80,21 +69,9 @@ const Administrador = (props) => {
       alert("ERROR: " + data.error);
       return 1
     } else {
-      setTorneos(torneos.map(prevTorneo => {
-        if (prevTorneo.idTorneo === torneo.idTorneo) {
-          return { ...prevTorneo, 
-            numParticipantes: torneo.numParticipantes, 
-            juego: torneo.juego, 
-            fechaInicio: torneo.fechaInicio, 
-            fechaFin: torneo.fechaFin, 
-            nombreTorneo: torneo.nombreTorneo, 
-            consola: torneo.consola, 
-            estatus: torneo.estatus};
-      } else {
-        return prevTorneo;
-        }
-      }));
-        alert('Torneo actualizado con éxito');
+      setTorneos(data.list);
+      setMaxID(data.maxid)
+      alert('Torneo actualizado con éxito');
       return 0
     }
   }

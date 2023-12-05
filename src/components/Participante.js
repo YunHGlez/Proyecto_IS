@@ -58,6 +58,9 @@ const Participante = (props) => {
           alert("ERROR: " + data.error);
           return 1
         } else {
+            sessionStorage.setItem("listData", JSON.stringify(data.list))
+            setNombre(data.list.name)
+            setCorreo(data.list.email)
             exitoCierraSolo("Tu cuenta ha sido editada con éxito.");
           return 0
         }

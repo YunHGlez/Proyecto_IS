@@ -16,13 +16,13 @@ const PaginaPrincipal = (props) => {
     setIndex(value);
   };
 
-  if(index === 0){
+  if(index === 'superAdministrador'){
     content = <SuperAdmin onChangeContent={changeContent} admins={props.list} maxID={props.id}/>
   }
-  if(index === 1){
+  if(index === 'administrador'){
     content = <Administrador onChangeContent={changeContent} torneos={props.list} maxID={props.id}/>
   }
-  if(index === 2){
+  if(index === 'participante'){
     content = <Participante onChangeContent={changeContent} logout={props.logout} usuario={props.list}/>
   }
 
@@ -30,14 +30,6 @@ const PaginaPrincipal = (props) => {
     <>
     <Header isThereButton={false} logoutButton={true} logout={props.logout}/>
     <div className="App bodyJJ">
-        <div className= "navbar_header" id="navbar">
-          <button className='buttonJJ' id="navelem" onClick={() => { changeContent(0); }}> 
-            SuperAdmin</button>
-          <button className='buttonJJ' id="navelem" onClick={() => { changeContent(1); }}> 
-            Administrador</button>
-          <button className='buttonJJ' id="navelem" onClick={() => { changeContent(2); }}> 
-            Participante</button>
-        </div>
         {content}
     </div>
     </>

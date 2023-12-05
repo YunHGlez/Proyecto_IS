@@ -12,32 +12,53 @@ import { useState } from 'react';
 function App() {
   const [lista, setLista] = useState(initList)
   const [user, setUser] = useState(initUser)
-  const [id, setId] = useState(0)
+  const [id, setId] = useState(initID)
 
   const navigate = useNavigate()
 
   const userRole = (value, list, id) => {
-    if(value === 'superAdministrador')
-      setUser(0)
-    if(value === 'administrador')
-      setUser(1)
-    if(value === 'participante')
-      setUser(2)
+    setUser(value)
     setLista(list)
     setId(id)
+    sessionStorage.setItem("listData", JSON.stringify(list))
+    sessionStorage.setItem("userData", value)
+    sessionStorage.setItem("userID", id)
   };
 
   const logout = () => {
     setUser(-1)
     navigate("/")
+    sessionStorage.clear()
   }
  
   function initList(){
+    if(sessionStorage.getItem("listData")){
+      console.log("LIST DATA:")
+      console.log(sessionStorage.getItem("listData"))
+      return JSON.parse(sessionStorage.getItem("listData"))
+    }
+    else
       return []
   }
 
   function initUser(){
-    return -1
+    if(sessionStorage.getItem("userData")){
+      console.log("USER DATA:")
+      console.log(sessionStorage.getItem("userData"))
+      return sessionStorage.getItem("userData")
+    }
+    else
+      return 'null'
+  }
+
+  function initID(){
+    if(sessionStorage.getItem("userID")){
+      console.log("ID DATA:")
+      console.log(sessionStorage.getItem("userID"))
+      return sessionStorage.getItem("userID")
+    }
+    else
+      return -1
   }
 
   return (
@@ -45,7 +66,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home logout={logout}/>} />
         <Route path="/AccesoYRegistro" element={<AccessoYRegistro add={addUser} read={readUser}/>} />
-        <Route path="/PaginaPrincipal" element={<PaginaPrincipal rol={user} logout={logout} list={lista} id={id}/>} />
+        <Route path="/PaginaPrincipal" element={<PaginaPrincipal rol={user} 
+              logout={logout} list={lista} id={id}/>} />
       </Routes>
       <Footer />
     </>
@@ -85,6 +107,8 @@ function App() {
       navigate("/PaginaPrincipal")
     }
   }
+
 }
+
 
 export default App;

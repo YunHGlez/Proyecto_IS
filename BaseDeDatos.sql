@@ -36,4 +36,3 @@ CREATE TABLE Reglas
   PRIMARY KEY (regla)
 );
 
-

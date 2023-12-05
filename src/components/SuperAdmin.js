@@ -21,20 +21,14 @@ const SuperAdmin = (props) => {
     if (data.error !== undefined) {
       alert("ERROR: " + data.error);
     } else {
-      setAdmins((prevAdmins) => {
-        admins = [admin, ...prevAdmins]
-        return admins;
-      });
-      setMaxID((prevID) => {
-        maxid = prevID+1
-        return maxid;
-      });
+      setAdmins(data.list);
+      setMaxID(data.maxid);
       alert('Administrador agregado con éxito');
     }
   }
 
   const addAdminHandler = (admin) => {
-    addUser(admin)
+    addUser(admin);
   }
 
   async function deleteUser (admin) {
@@ -48,16 +42,11 @@ const SuperAdmin = (props) => {
     const data = await response.json();
     if (data.error !== undefined) {
       alert("ERROR: " + data.error);
-      return 1
+      return 1;
     } else {
-      setAdmins((prevAdmins) =>{
-        admins = prevAdmins.filter(a =>
-          a.id !== admin.id
-        )
-        return admins;
-        });
+      setAdmins(data.list);
         alert('Administrador eliminado con éxito');
-      return 0
+      return 0;
     }
   }
 
@@ -68,7 +57,7 @@ const SuperAdmin = (props) => {
   async function updateUser (admin) {
     const response = await fetch('http://127.0.0.1:5000/PaginaPrincipal', {
       method:'POST',
-      body: JSON.stringify({'id' : admin.id, action : 'updateUser', 'name': admin.name,
+      body: JSON.stringify({'id' : admin.id, action : 'updateAdmin', 'name': admin.name,
        'email': admin.email, 'password': admin.password }),
       headers: {
         'Content-Type':'application/json'
@@ -79,14 +68,8 @@ const SuperAdmin = (props) => {
       alert("ERROR: " + data.error);
       return 1
     } else {
-      setAdmins(admins.map(prevAdmin => {
-        if (prevAdmin.id === admin.id) {
-          return { ...prevAdmin, name: admin.name, email: admin.email, password: admin.password };
-        } else {
-          return prevAdmin;
-        }
-      }));
-        alert('Administrador actualizado con éxito');
+      setAdmins(data.list);
+      alert('Administrador actualizado con éxito');
       return 0
     }
   }
