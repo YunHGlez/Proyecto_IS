@@ -1,6 +1,7 @@
 -- Poblacion de la tabla usuario
 USE practica5;
 INSERT INTO Usuario (nombreUsuario, correo, contraseña, rol) VALUES
+('Root', 'root@gmail.com', 'e95fb3c63e1d451ba720d439f4a37f4059caf91233b451e8bc760aefa21be5b0', 'superAdministrador'),
 ('Luis', 'luis@example.com', 'contrasenaLuis', 'participante'),
 ('Juan', 'juan@example.com', 'contrasenaJuan', 'participante'),
 ('Estrella', 'estrella@example.com', 'contrasenaEstrella', 'administrador'),
@@ -66,9 +67,9 @@ INSERT INTO Torneo (numParticipantes, juego, fechaInicio, fechaFin, nombreTorneo
 (48, 'Overwatch', '2026-03-05', '2026-03-20', 'Spring Overwatch Showdown', 'Playstation', 'silvia@example.com', 'activo'),
 (55, 'League of Legends', '2026-05-10', '2026-05-25', 'Legends Spring Cup', 'PC', 'natalia@example.com', 'activo');
 
--- Poblacion para la tabla reglas 
+-- Poblacion para la tabla reglas nombreTorneo
 USE practica5;
-INSERT INTO Reglas (id, regla) VALUES
+INSERT INTO Reglas (idTorneo, regla) VALUES
 (1, 'No se permite el uso de hacks o trampas en ningún momento del torneo.'),
 (1, 'El lenguaje ofensivo y comportamiento no ético no será tolerado.'),
 (1, 'Cada participante debe seguir las reglas específicas del juego establecidas para el torneo.'),
@@ -98,7 +99,7 @@ INSERT INTO Reglas (id, regla) VALUES
 (15, 'No se permiten insultos o comportamientos ofensivos hacia otros participantes.'),
 (16, 'El uso de exploits para obtener una ventaja injusta está prohibido.'),
 (17, 'Los participantes deben respetar los plazos de registro y check-in establecidos.'),
-(18, 'Se espera que los participantes respeten la integridad del juego y de otros jugadores.')
+(18, 'Se espera que los participantes respeten la integridad del juego y a otros jugadores.'),
 (19, 'Los participantes deben seguir las instrucciones de los administradores del torneo en todo momento.'),
 (19, 'Se espera que los jugadores respeten el espacio personal de los demás durante los eventos presenciales.'),
 (20, 'El uso de cualquier forma de trampa de hardware o software está prohibido.'),

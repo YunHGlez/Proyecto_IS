@@ -11,18 +11,20 @@ import { useState } from 'react';
 
 function App() {
   const [lista, setLista] = useState(initList)
-  const [user, setUser] = useState(initUser);
+  const [user, setUser] = useState(initUser)
+  const [id, setId] = useState(0)
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const userRole = (value, list) => {
+  const userRole = (value, list, id) => {
     if(value === 'superAdministrador')
-      setUser(0);
+      setUser(0)
     if(value === 'administrador')
-      setUser(1);
+      setUser(1)
     if(value === 'participante')
-      setUser(2);
+      setUser(2)
     setLista(list)
+    setId(id)
   };
 
   const logout = () => {
@@ -43,7 +45,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home logout={logout}/>} />
         <Route path="/AccesoYRegistro" element={<AccessoYRegistro add={addUser} read={readUser}/>} />
-        <Route path="/PaginaPrincipal" element={<PaginaPrincipal rol={user} logout={logout} list={lista}/>} />
+        <Route path="/PaginaPrincipal" element={<PaginaPrincipal rol={user} logout={logout} list={lista} id={id}/>} />
       </Routes>
       <Footer />
     </>
@@ -78,7 +80,7 @@ function App() {
     if (data.error !== undefined) {
       alert("ERROR: " + data.error);
     } else {
-      userRole(data.role, data.list)
+      userRole(data.role, data.list, data.maxid)
       alert("¡Bienvenido de vuelta " + data.nombre + "!")
       navigate("/PaginaPrincipal")
     }

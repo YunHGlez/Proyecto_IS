@@ -1,12 +1,10 @@
 from alchemyClasses import db
-from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String
 
 class Reglas(db.Model):
-    __tablename__ = 'reglas'
-    idTorneo = Column(Integer, ForeignKey("torneo.idTorneo", name='idTorneo'))
+    __tablename__ = 'Reglas'
+    idTorneo = Column(Integer)
     regla = Column(String(200), primary_key=True) 
-    torneos = relationship("Torneo", back_populates="reglas")
 
     def __init__(self, reglas, idTorneo):
         self.reglas=reglas

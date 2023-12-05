@@ -1,11 +1,10 @@
 from alchemyClasses import db
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.orm import relationship
 
 class Torneo(db.Model):
 
-    __tablename__ = 'torneo'
+    __tablename__ = 'Torneo'
     idTorneo = Column(Integer, primary_key=True)
     numParticipantes = Column(Integer)
     juego = Column(String(50))    
@@ -15,7 +14,6 @@ class Torneo(db.Model):
     consola = Column(String(30))
     correo = Column(String(50))
     estatus = Column(String(20))
-    reglas = relationship("Reglas", back_populates="torneo")
 
     def __init__(self, numParticipantes, juego, fechaInicio, 
                  fechaFin, nombreTorneo, consola, correo, estatus):
@@ -32,7 +30,4 @@ class Torneo(db.Model):
 
     
     def __str__(self):
-        return f'Num Participantes: {self.numParticipantes}\nJuego: {self.juego} 
-            \nFecha inicio: {self.fechaInicio} \nFecha fin: {self.fechaFin} 
-            \nID torneo: {self.idTorneo} \nNombre torneo: {self.nombreTorneo} 
-            \nConsola: {self.consola} \nNombre usuario: {self.correo}'
+        return f'Num Participantes: {self.numParticipantes}\nJuego: {self.juego} \nFecha inicio: {self.fechaInicio} \nFecha fin: {self.fechaFin}  \nID torneo: {self.idTorneo} \nNombre torneo: {self.nombreTorneo} \nConsola: {self.consola} \nNombre usuario: {self.correo}'

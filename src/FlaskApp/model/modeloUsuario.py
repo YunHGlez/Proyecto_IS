@@ -41,6 +41,21 @@ def get_users_by_role(rol):
                       'email': usuario.correo, 'password': usuario.contraseña})
     return lista
 
+def get_user_info(id):
+    usuario = Usuario.query.filter(Usuario.idUsuario == id).first()
+    lista = {'id': usuario.idUsuario, 'name': usuario.nombreUsuario, 
+                      'email': usuario.correo, 'password': usuario.contraseña}
+    return lista
+
+
+def get_next_id(rol):
+    maxid = 0
+    if(rol != ''):
+        usuarios = Usuario.query.filter(Usuario.rol == rol).order_by(Usuario.idUsuario.desc()).all()
+        maxid = usuarios[0].idUsuario
+        print(maxid)
+    return maxid
+
 def add_user(nombre='', correo='', contraseña='', rol=''):
     if(nombre == ''):
         print("Nombre inválido")

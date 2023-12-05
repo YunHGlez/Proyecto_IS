@@ -31,11 +31,9 @@ CREATE TABLE Torneo
 
 CREATE TABLE Reglas
 (
-  idTorneo SERIAL NOT NULL,
+  idTorneo INT NOT NULL,
   regla VARCHAR(200) NOT NULL,
-  PRIMARY KEY (regla),
-  FOREIGN KEY (idTorneo) REFERENCES Torneo(idTorneo)
+  PRIMARY KEY (regla)
 );
 
-select * from Usuario
 

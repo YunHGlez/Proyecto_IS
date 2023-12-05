@@ -3,35 +3,86 @@ import '../assets/styles/PaginaPrincipal.css';
 import ListaTorneos from './ListaTorneos.js';
 import NuevoTorneo from './NuevoTorneo.js';
 
-const Administrador = () => {
-  const [torneos, setTorneos] = useState(TORNEOS);
-  const [maxid, setMaxID] = useState(id);
+const Administrador = (props) => {
+  let [torneos, setTorneos] = useState(props.torneos);
+  let [maxid, setMaxID] = useState(props.maxID);
+
+  async function addTorneo (torneo) {
+    const response = await fetch('http://127.0.0.1:5000/PaginaPrincipal', {
+      method:'POST',
+      body: JSON.stringify({'action': 'addTorneo', 'participants': torneo.numParticipantes, 
+        'game' : torneo.juego, 'initDate': torneo.fechaInicio, 'endDate' : torneo.fechaFin,
+         'name' : torneo.nombreTorneo, 'console' : torneo.consola, 'email': torneo.correo}),
+      headers: {
+        'Content-Type':'application/json'
+      }
+    });
+    const data = await response.json();
+    if (data.error !== undefined) {
+      alert("ERROR: " + data.error);
+    } else {
+      setTorneos((prevTorneos) => {
+        torneos = [torneo, ...prevTorneos]
+        return torneos;
+      });
+      setMaxID((prevID) => {
+        maxid = prevID+1
+        return maxid;
+      });
+      alert('Torneo agregado con éxito');
+    }
+  }
+
   const addTorneoHandler = (torneo) => {
-    setTorneos((prevTorneos) => {
-      TORNEOS = [torneo, ...prevTorneos]
-      return TORNEOS;
+    addTorneo(torneo)
+  }
+
+  async function deleteTorneo (torneo) {
+    const response = await fetch('http://127.0.0.1:5000/PaginaPrincipal', {
+      method:'POST',
+      body: JSON.stringify({'id' : torneo.idTorneo, action : 'deleteTorneo' }),
+      headers: {
+        'Content-Type':'application/json'
+      }
     });
-    setMaxID((prevID) => {
-      id = prevID+1
-      return id;
-    });
-    alert('Torneo agregado con éxito');
+    const data = await response.json();
+    if (data.error !== undefined) {
+      alert("ERROR: " + data.error);
+      return 1
+    } else {
+      setTorneos((prevTorneos) =>{
+        torneos = prevTorneos.filter(a =>
+          a.idTorneo !== torneo.idTorneo
+        )
+        return torneos;
+        });
+        alert('Torneo eliminado con éxito');
+      return 0
+    }
   }
 
   const deleteTorneoHandler = (torneo) =>{
-      setTorneos((prevTorneos) =>{
-        TORNEOS = prevTorneos.filter(a =>
-          a.idTorneo !== torneo.idTorneo
-        )
-        return TORNEOS;
-        });
-        alert('Torneo eliminado con éxito');
+      deleteTorneo(torneo)
     }
 
-  const updateTorneoHandler = (torneo) =>{
-    setTorneos(torneos.map(prevTorneo => {
-      if (prevTorneo.idTorneo === torneo.idTorneo) {
-        return { ...prevTorneo, 
+  async function updateTorneo (torneo) {
+    const response = await fetch('http://127.0.0.1:5000/PaginaPrincipal', {
+      method:'POST',
+      body: JSON.stringify({'idTorneo' : torneo.idTorneo, action : 'updateTorneo', 'numParticipantes': torneo.numParticipantes,
+      'game' : torneo.juego, 'initDate': torneo.fechaInicio, 'endDate' : torneo.fechaFin,
+      'name' : torneo.nombreTorneo, 'console' : torneo.consola, 'email': torneo.correo }),
+      headers: {
+        'Content-Type':'application/json'
+      }
+    });
+    const data = await response.json();
+    if (data.error !== undefined) {
+      alert("ERROR: " + data.error);
+      return 1
+    } else {
+      setTorneos(torneos.map(prevTorneo => {
+        if (prevTorneo.idTorneo === torneo.idTorneo) {
+          return { ...prevTorneo, 
             numParticipantes: torneo.numParticipantes, 
             juego: torneo.juego, 
             fechaInicio: torneo.fechaInicio, 
@@ -41,10 +92,16 @@ const Administrador = () => {
             estatus: torneo.estatus};
       } else {
         return prevTorneo;
-      }
-    }));
-      alert('Torneo actualizado con éxito');
+        }
+      }));
+        alert('Torneo actualizado con éxito');
+      return 0
     }
+  }
+
+  const updateTorneoHandler = (torneo) =>{
+    updateTorneo(torneo)
+  }
 
     return (
       <div>
@@ -59,26 +116,5 @@ const Administrador = () => {
       </div>
     );
   };
-  let id = 7;
-  let TORNEOS = [
-    {idTorneo: 6, numParticipantes: 10, juego: "juego6", fechaInicio: "2023-02-02", 
-    fechaFin: "2023-02-05", nombreTorneo: "Torneo6", consola: "Consola5", 
-    correo: "torneo6@gmail.com", estatus: "FINALIZADO"},
-    {idTorneo: 5, numParticipantes: 20, juego: "juego5", fechaInicio: "2023-02-20", 
-    fechaFin: "2023-03-01", nombreTorneo: "Torneo5", consola: "Consola5", 
-    correo: "torneo5@gmail.com", estatus: "FINALIZADO"},
-    {idTorneo: 4, numParticipantes: 15, juego: "juego5", fechaInicio: "2023-12-20", 
-    fechaFin: "2023-12-24", nombreTorneo: "Torneo4", consola: "Consola3", 
-    correo: "torneo4@gmail.com", estatus: "NO INICIADO"},
-    {idTorneo: 3, numParticipantes: 16, juego: "juego3", fechaInicio: "2023-11-28", 
-    fechaFin: "2023-11-30", nombreTorneo: "Torneo3", consola: "Consola3", 
-    correo: "torneo3@gmail.com", estatus: "EN CURSO"},
-    {idTorneo: 2, numParticipantes: 32, juego: "juego2", fechaInicio: "2024-01-01", 
-    fechaFin: "2024-01-07", nombreTorneo: "Torneo2", consola: "Consola2", 
-    correo: "torneo2@gmail.com", estatus: "NO INICIADO"},
-    {idTorneo: 1, numParticipantes: 100, juego: "juego1", fechaInicio: "2024-02-02", 
-    fechaFin: "2024-03-03", nombreTorneo: "Torneo1", consola: "Consola1", 
-    correo: "correo1@gmail.com", estatus: "NO INICIADO"}
-  ];
   
   export default Administrador;

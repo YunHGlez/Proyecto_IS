@@ -5,46 +5,74 @@ import { exitoCerrar, exitoCierraSolo, advertenciaCierraSolo } from '../assets/t
 
 import Avatar from '../assets/images/avatar.gif';
 
-/**
- * Este usuario se debe obtener de la base de datos, ya sea que se pase el correo como 
- * parametro a participante y a hacer la consulta aqui, mediante otro metodo. O que en Participante
- * se pase el JSON con al informacion del usuario.
- */
-let usuario = [{
-    id: 1,
-    nombre: 'Juan',
-    correo: 'user1@gmail.com',
-    contraseña: '12345678'
-}];
-
-const borrarCuenta = (event) => {
-    event.preventDefault();
-    const confirmacion = window.confirm("¿Estás seguro de que deseas borrar tu cuenta?");
-    if (confirmacion) {
-        exitoCerrar("Tu cuenta ha sido borrada con éxito. Has sido borrado de la base de datos.");
-    } else {
-        advertenciaCierraSolo("Tu cuenta no ha sido borrada.");
-    }
-}
-
-const editarPerfil = (event) => {
-    event.preventDefault();
-    const confirmacion = window.confirm("¿Estás seguro de que deseas guardar los datos ingresados a tu cuenta tu cuenta?");
-    if (confirmacion) {
-        exitoCierraSolo("Tu cuenta ha sido editada con éxito.");
-    } else {
-        advertenciaCierraSolo("Tu cuenta no ha sido editada.");
-    }
-};
-
-const Participante = () => {
-    const [nombre, setNombre] = React.useState(usuario[0].nombre);
-    const [correo, setCorreo] = React.useState(usuario[0].correo);
-    const [contraseña, setContraseña] = React.useState(usuario[0].contraseña);
+const Participante = (props) => {
+    const [nombre, setNombre] = React.useState(props.usuario.name);
+    const [correo, setCorreo] = React.useState(props.usuario.email);
+    const [contraseña, setContraseña] = React.useState('');
     const [mostrarContraseña, setMostrarContraseña] = React.useState(false);
     const toggleMostrarContraseña = () => {
         setMostrarContraseña(!mostrarContraseña);
     };
+
+
+    async function deleteUser (id) {
+        const response = await fetch('http://127.0.0.1:5000/PaginaPrincipal', {
+          method:'POST',
+          body: JSON.stringify({'id' : id, action : 'deleteAccount' }),
+          headers: {
+            'Content-Type':'application/json'
+          }
+        });
+        const data = await response.json();
+        if (data.error !== undefined) {
+          alert("ERROR: " + data.error);
+          return 1
+        } else {
+            exitoCerrar("Tu cuenta ha sido borrada con éxito. Has sido borrado de la base de datos.");
+            props.logout()
+          return 0
+        }
+    }
+
+    const borrarCuenta = (event) => {
+        event.preventDefault();
+        const confirmacion = window.confirm("¿Estás seguro de que deseas borrar tu cuenta?");
+        if (confirmacion) {
+            deleteUser(props.usuario.id)
+        } else {
+            advertenciaCierraSolo("Tu cuenta no ha sido borrada.");
+        }
+    }
+    
+    async function updateUser (id) {
+        const response = await fetch('http://127.0.0.1:5000/PaginaPrincipal', {
+          method:'POST',
+          body: JSON.stringify({'id' : id, action : 'updateUser', 'name': nombre,
+           'email': correo, 'password': contraseña }),
+          headers: {
+            'Content-Type':'application/json'
+          }
+        });
+        const data = await response.json();
+        if (data.error !== undefined) {
+          alert("ERROR: " + data.error);
+          return 1
+        } else {
+            exitoCierraSolo("Tu cuenta ha sido editada con éxito.");
+          return 0
+        }
+    }
+
+    const editarPerfil = (event) => {
+        event.preventDefault();
+        const confirmacion = window.confirm("¿Estás seguro de que deseas guardar los datos ingresados a tu cuenta tu cuenta?");
+        if (confirmacion) {
+            updateUser(props.usuario.id)
+        } else {
+            advertenciaCierraSolo("Tu cuenta no ha sido editada.");
+        }
+    };
+
     return (
         <div className='p-pefil-background' >
             <div className='p-perfil-container'>
@@ -54,7 +82,7 @@ const Participante = () => {
                 </div>
                 <form className='perfil-form-p'>
                     <div>
-                        <h3>ID: {usuario[0].id}</h3>
+                        <h3>ID: {props.usuario.idUsuario}</h3>
                     </div>
                     <div className='item-form-perfil-p'>
                         <ItemForm

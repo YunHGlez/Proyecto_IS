@@ -17,13 +17,13 @@ const PaginaPrincipal = (props) => {
   };
 
   if(index === 0){
-    content = <SuperAdmin onChangeContent={changeContent} admins={props.list}/>
+    content = <SuperAdmin onChangeContent={changeContent} admins={props.list} maxID={props.id}/>
   }
   if(index === 1){
-    content = <Administrador onChangeContent={changeContent}/>
+    content = <Administrador onChangeContent={changeContent} torneos={props.list} maxID={props.id}/>
   }
   if(index === 2){
-    content = <Participante onChangeContent={changeContent}/>
+    content = <Participante onChangeContent={changeContent} logout={props.logout} usuario={props.list}/>
   }
 
   return (

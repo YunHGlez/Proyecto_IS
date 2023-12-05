@@ -54,6 +54,7 @@ const handleEmailChange = (event) => {
 
 
 const submitHandler = (event) => {
+  event.preventDefault();
   const TournamentData = {
     idTorneo: props.id,
     numParticipantes: enteredParticipants,
@@ -63,7 +64,7 @@ const submitHandler = (event) => {
     nombreTorneo: enteredName,
     consola: enteredConsole,
     correo: enteredEmail,
-    estatus: 'NO INICIADO'
+    estatus: 'no iniciado'
   };
 
     props.onSaveTournamentData(TournamentData);

@@ -6,12 +6,12 @@ import NuevoAdministrador from './NuevoAdministrador.js';
 
 const SuperAdmin = (props) => {
   let [admins, setAdmins] = useState(props.admins);
-  const [maxid, setMaxID] = useState(id);
+  let [maxid, setMaxID] = useState(props.maxID);
 
   async function addUser (admin) {
     const response = await fetch('http://127.0.0.1:5000/PaginaPrincipal', {
       method:'POST',
-      body: JSON.stringify({'action': 'add', 'name': admin.name, 
+      body: JSON.stringify({'action': 'addAdmin', 'name': admin.name, 
         'email': admin.email, 'password': admin.password}),
       headers: {
         'Content-Type':'application/json'
@@ -26,8 +26,8 @@ const SuperAdmin = (props) => {
         return admins;
       });
       setMaxID((prevID) => {
-        id = prevID+1
-        return id;
+        maxid = prevID+1
+        return maxid;
       });
       alert('Administrador agregado con éxito');
     }
@@ -40,7 +40,7 @@ const SuperAdmin = (props) => {
   async function deleteUser (admin) {
     const response = await fetch('http://127.0.0.1:5000/PaginaPrincipal', {
       method:'POST',
-      body: JSON.stringify({'id' : admin.id, action : 'delete' }),
+      body: JSON.stringify({'id' : admin.id, action : 'deleteUser' }),
       headers: {
         'Content-Type':'application/json'
       }
@@ -68,7 +68,7 @@ const SuperAdmin = (props) => {
   async function updateUser (admin) {
     const response = await fetch('http://127.0.0.1:5000/PaginaPrincipal', {
       method:'POST',
-      body: JSON.stringify({'id' : admin.id, action : 'update', 'name': admin.name,
+      body: JSON.stringify({'id' : admin.id, action : 'updateUser', 'name': admin.name,
        'email': admin.email, 'password': admin.password }),
       headers: {
         'Content-Type':'application/json'
@@ -108,6 +108,5 @@ const SuperAdmin = (props) => {
       </div>
     );
   };
-  let id = 7;
   
   export default SuperAdmin;
