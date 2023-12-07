@@ -13,16 +13,20 @@ function App() {
   const [lista, setLista] = useState(initList)
   const [user, setUser] = useState(initUser)
   const [id, setId] = useState(initID)
+  const [rules, setRules] = useState(initRules)
 
   const navigate = useNavigate()
 
-  const userRole = (value, list, id) => {
-    setUser(value)
-    setLista(list)
-    setId(id)
+  const userRole = (user, list, id, reglas) => {
     sessionStorage.setItem("listData", JSON.stringify(list))
-    sessionStorage.setItem("userData", value)
+    sessionStorage.setItem("userData", user)
     sessionStorage.setItem("userID", id)
+    sessionStorage.setItem("rules", JSON.stringify(reglas))
+
+    setLista(list)
+    setUser(user)
+    setId(id)
+    setRules(reglas)
   };
 
   const logout = () => {
@@ -33,8 +37,6 @@ function App() {
  
   function initList(){
     if(sessionStorage.getItem("listData")){
-      console.log("LIST DATA:")
-      console.log(sessionStorage.getItem("listData"))
       return JSON.parse(sessionStorage.getItem("listData"))
     }
     else
@@ -43,8 +45,6 @@ function App() {
 
   function initUser(){
     if(sessionStorage.getItem("userData")){
-      console.log("USER DATA:")
-      console.log(sessionStorage.getItem("userData"))
       return sessionStorage.getItem("userData")
     }
     else
@@ -53,12 +53,18 @@ function App() {
 
   function initID(){
     if(sessionStorage.getItem("userID")){
-      console.log("ID DATA:")
-      console.log(sessionStorage.getItem("userID"))
       return sessionStorage.getItem("userID")
     }
     else
       return -1
+  }
+
+  function initRules(){
+    if(sessionStorage.getItem("rules")){
+      return JSON.parse(sessionStorage.getItem("rules"))
+    }
+    else
+      return []
   }
 
   return (
@@ -67,14 +73,13 @@ function App() {
         <Route path="/" element={<Home logout={logout}/>} />
         <Route path="/AccesoYRegistro" element={<AccessoYRegistro add={addUser} read={readUser}/>} />
         <Route path="/PaginaPrincipal" element={<PaginaPrincipal rol={user} 
-              logout={logout} list={lista} id={id}/>} />
+              logout={logout} list={lista} id={id} rules={rules}/>} />
       </Routes>
       <Footer />
     </>
   );
 
   async function addUser (user) {
-    console.log(user);
     const response = await fetch('http://127.0.0.1:5000/Registro', {
       method:'POST',
       body: JSON.stringify(user),
@@ -102,7 +107,7 @@ function App() {
     if (data.error !== undefined) {
       alert("ERROR: " + data.error);
     } else {
-      userRole(data.role, data.list, data.maxid)
+      userRole(data.role, data.list, data.maxid, data.rules)
       alert("¡Bienvenido de vuelta " + data.nombre + "!")
       navigate("/PaginaPrincipal")
     }

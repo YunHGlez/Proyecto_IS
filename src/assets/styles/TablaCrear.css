@@ -51,4 +51,40 @@
       background: #111111;
       color: rgb(255, 255, 255);
     }
+
+    .rules-container{
+      margin-left: 30px;
+      text-align: left;
+      gap: 1rem;
+    }
+
+    .rules-container input{
+      font: inherit;
+      padding: 0.5rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      width: 85vw;
+      max-width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .rules-container button{
+      background-color: #5a5a5a;
+      color: #ffffff;  
+      font-size: 16px;
+      padding: 5px 10px;
+      border-radius: 20px;
+      border: #ffffff00;
+      margin: 0.5rem;
+    }
+
+    .rules-container button:hover { 
+      background-color: #888888;
+      color: #ffffff;
+    }
+  
+    .rules-container button:active {
+      background: #111111;
+      color: rgb(255, 255, 255);
+    }
   

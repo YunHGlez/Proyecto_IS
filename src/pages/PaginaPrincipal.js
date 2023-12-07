@@ -20,7 +20,7 @@ const PaginaPrincipal = (props) => {
     content = <SuperAdmin onChangeContent={changeContent} admins={props.list} maxID={props.id}/>
   }
   if(index === 'administrador'){
-    content = <Administrador onChangeContent={changeContent} torneos={props.list} maxID={props.id}/>
+    content = <Administrador onChangeContent={changeContent} torneos={props.list} maxID={props.id} rules={props.rules}/>
   }
   if(index === 'participante'){
     content = <Participante onChangeContent={changeContent} logout={props.logout} usuario={props.list}/>

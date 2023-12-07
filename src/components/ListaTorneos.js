@@ -3,7 +3,7 @@ import '../assets/styles/TablaBuscar.css';
 import '../assets/styles/PaginaPrincipal.css';
 
 export default function ListaTorneos(props) {
-  function FilterableTournamentTable({ torneos }) {
+  function FilterableTournamentTable({ torneos, rules }) {
     const [filterName, setFilterName] = useState('');
     const [filterID, setFilterID] = useState('');
     const [filterParticipants, setFilterParticipants] = useState('');
@@ -50,6 +50,7 @@ export default function ListaTorneos(props) {
           reset={resetValues}/>
         <TournamentTable 
           torneos={torneos} 
+          rules={rules}
           filterName={filterName}
           filterID={filterID}
           filterParticipants={filterParticipants} 
@@ -64,7 +65,7 @@ export default function ListaTorneos(props) {
     );
   }
 
-  function TournamentTable({ torneos, filterName, filterID, filterParticipants,
+  function TournamentTable({ torneos, rules, filterName, filterID, filterParticipants,
     filterGame, filterInitDate, filterEndDate, filterConsole, filterEmail, filterStatus }) {
     const rows = [];
   
@@ -103,7 +104,12 @@ export default function ListaTorneos(props) {
         filterStatus.toLowerCase()) === -1) {
         return;
       }
-      rows.push(<TournamentRow torneo={torneo} key={torneo.id}/>);
+      const rulesTorneo = [];
+      rules.forEach((regla) => {
+        if(regla.idTorneo === torneo.idTorneo)
+          rulesTorneo.push(regla.regla)
+      })
+      rows.push(<TournamentRow torneo={torneo} key={torneo.id} rules={rulesTorneo}/>);
     });
   
     return (
@@ -207,15 +213,33 @@ export default function ListaTorneos(props) {
   }
 
 
-  function TournamentRow({ torneo }) {
+  function TournamentRow({ torneo, rules }) {
+    
     const [editInput, setEditInput] = useState(false);
-    let content;
 
+    let content;
+    let rulesRows = [];
     if(editInput){
-      content = <UpdateFields torneo={torneo}/>
+      content = <UpdateFields torneo={torneo} rules={rules} key={torneo.id}/>
     }
     else{
       content = null;
+      rulesRows.push(
+        <tr className='table-row'>
+        <td colSpan="9" style={{textAlign: 'left'}}>
+          Reglas del torneo:
+        </td>
+        </tr>
+      )
+      rules.forEach((rule) => {
+        rulesRows.push(
+        <tr className='table-row'>
+          <td colSpan="9" style={{textAlign: 'left'}}>
+            {rule}
+          </td>
+        </tr>
+        )
+      });
     }
 
     function Update(){
@@ -248,12 +272,13 @@ export default function ListaTorneos(props) {
             Eliminar</button>
         </td>
       </tr>
+        {rulesRows}
         {content}
       </>
     );
   }
 
-  function UpdateFields({torneo}){
+  function UpdateFields({torneo, rules}){
     const [enteredParticipants, setEnteredParticipants] = useState(torneo.numParticipantes);
     const [enteredGame, setEnteredGame] = useState(torneo.juego);
     const [enteredInitDate, setEnteredInitDate] = useState(torneo.fechaInicio);
@@ -310,6 +335,28 @@ export default function ListaTorneos(props) {
         setEnteredStatus(event.target.value);
       }
     };
+
+    const [inputs, setInputs] = useState(rules);
+    
+    const handleAddInput = () => {
+      setInputs([...inputs, ""]);
+    };
+
+    const handleInputChange = (event, index) => {
+      let value = event.target.value;
+      if(value !== ''){
+        let onChangeValue = [...inputs];
+        onChangeValue[index] = value;
+        setInputs(onChangeValue);
+      }
+    };
+
+    const handleDeleteInput = (index) => {
+      const newArray = [...inputs];
+      newArray.splice(index, 1);
+      console.log(newArray)
+      setInputs(newArray);
+    };
   
     const submitHandler = (event) => {
       const newTournament = {
@@ -324,7 +371,7 @@ export default function ListaTorneos(props) {
         estatus: enteredStatus
       };
   
-      props.onUpdateTournamentData(newTournament);
+      props.onUpdateTournamentData(newTournament, inputs);
       setEnteredParticipants(torneo.numParticipantes);
       setEnteredGame(torneo.juego);
       setEnteredInitDate(torneo.fechaInicio);
@@ -333,9 +380,11 @@ export default function ListaTorneos(props) {
       setEnteredConsole(torneo.consola);
       setEnteredEmail(torneo.correo);
       setEnteredStatus(torneo.estatus);
+      setInputs(rules);
   }
 
     return(
+      <>
         <tr className='table-row'>
             <td></td>
             <td><input type="number" min="1" onChange={handleParticipantsChange} required/></td>
@@ -354,8 +403,30 @@ export default function ListaTorneos(props) {
             <td className='update'><button className='buttonJJ' 
             onClick={() => { submitHandler(torneo.idTorneo); }}> Guardar Cambios</button> </td>
         </tr>
+         <tr className='rules-container'>
+          <td colSpan="9" style={{textAlign: 'left'}}>
+        {inputs.map((item, index) => (
+          <>
+            <input
+              name="rule"
+              type="text"
+              maxLength="200"
+              placeholder={item}
+              onChange={(event) => handleInputChange(event, index)}
+            />
+            {inputs.length > 1 && (
+                <button onClick={() => handleDeleteInput(index)}> - </button>
+              )}
+              {index === inputs.length - 1 && (
+                <button onClick={() => handleAddInput()}> + </button>
+              )}
+          </>
+        ))}
+        </td>
+        </tr>
+        </>
     );
   }
 
-  return <FilterableTournamentTable torneos={props.torneos}/>;
+  return <FilterableTournamentTable torneos={props.torneos} rules={props.rules}/>;
 }

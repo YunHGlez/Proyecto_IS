@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../assets/styles/TablaCrear.css';
+import NuevasReglas from './NuevasReglas';
 
 const NuevoTorneo = (props) => {
   const [enteredParticipants, setEnteredParticipants] = useState('');
@@ -52,6 +53,25 @@ const handleEmailChange = (event) => {
   }
 };
 
+const [inputs, setInputs] = useState([{ rule: "" }]);
+
+const handleAddInput = () => {
+  setInputs([...inputs, { rule: "" }]);
+};
+
+const handleInputChange = (event, index) => {
+  let { name, value } = event.target;
+  let onChangeValue = [...inputs];
+  onChangeValue[index][name] = value;
+  setInputs(onChangeValue);
+};
+
+const handleDeleteInput = (index) => {
+  const newArray = [...inputs];
+  newArray.splice(index, 1);
+  setInputs(newArray);
+};
+
 
 const submitHandler = (event) => {
   event.preventDefault();
@@ -67,7 +87,7 @@ const submitHandler = (event) => {
     estatus: 'no iniciado'
   };
 
-    props.onSaveTournamentData(TournamentData);
+    props.onSaveTournamentData(TournamentData, inputs);
     setEnteredParticipants('');
     setEnteredGame('');
     setEnteredInitDate('');
@@ -75,6 +95,7 @@ const submitHandler = (event) => {
     setEnteredName('');
     setEnteredConsole('');
     setEnteredEmail('');
+    setInputs([{ rule: "" }])
   };
 
   return (
@@ -145,6 +166,12 @@ const submitHandler = (event) => {
             required
           />
         </div>
+      </div>
+      <div>
+        <NuevasReglas inputs={inputs}
+          handleAddInput={handleAddInput}
+          handleChange={handleInputChange}
+          handleDeleteInput={handleDeleteInput}/>
       </div>
       </center>
       <div className='create-actions'>

@@ -7,9 +7,9 @@ class Reglas(db.Model):
     regla = Column(String(200), primary_key=True) 
 
     def __init__(self, reglas, idTorneo):
-        self.reglas=reglas
         self.idTorneo=idTorneo
+        self.regla=reglas
 
     
     def __str__(self):
-        return f'Reglas: {self.reglas}\nID Torneo: {self.idTorneo}'
+        return f'Reglas: {self.regla}\nID Torneo: {self.idTorneo}'

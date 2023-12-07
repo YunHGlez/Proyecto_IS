@@ -138,7 +138,6 @@ def update_torneo(idTorneo='', nombreTorneo='', nuevoID='', numParticipantes='',
     return torneo
 
 def delete_torneo(id):
-    print(id)
     torneo = get_torneo_by_id(id)
     if(torneo != None):
         consult =  Torneo.query.filter(Torneo.idTorneo == id)

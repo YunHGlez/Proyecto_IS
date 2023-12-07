@@ -3,6 +3,7 @@ from flask import Blueprint, request, render_template, flash, session, redirect,
 from flask_cors import CORS, cross_origin
 from model.modeloUsuario import *
 from model.modeloTorneo import *
+from model.modeloReglas import *
 
 user = Blueprint('user', __name__, url_prefix='/')
 
@@ -50,7 +51,8 @@ def read_user():
                 if(usuario.rol == 'administrador'):
                     datos = get_torneos()
                     maxid = get_next_idTorneo()
-                    return json.dumps({'nombre': usuario.nombreUsuario, 'role': usuario.rol, 'list': datos, 'maxid': maxid+1})
+                    rules = get_reglas()
+                    return json.dumps({'nombre': usuario.nombreUsuario, 'role': usuario.rol, 'list': datos, 'maxid': maxid+1, 'rules' : rules})
                 if(usuario.rol == 'participante'):
                     datos = get_user_info(usuario.idUsuario)
                     return json.dumps({'nombre': usuario.nombreUsuario, 'role': usuario.rol, 'list': datos, 'maxid': usuario.idUsuario})
@@ -61,10 +63,6 @@ def read_user():
 @user.route('/PaginaPrincipal',  methods=('GET', 'POST'))
 @cross_origin()      
 def update_data():
-    if request.method == 'GET':
-        datos = get_users_by_role('administrador')
-        maxid = get_next_id('administrador')
-        return json.dumps({'list': datos, 'maxid' : maxid})
     action = request.json.get("action", None)
     print(action)
     if action == '':
@@ -116,12 +114,16 @@ def update_data():
         nombre = request.json.get("name", None)
         consola = request.json.get("console", None)
         correo = request.json.get("email", None)
+        reglas = request.json.get("rules", None)
         estatus = 'No iniciado'
         torneo = add_torneo(num_part, juego, inicio, fin, nombre, consola, correo, estatus)
+        for regla in reglas:
+            add_regla(torneo.idTorneo, regla['rule'])
         if(torneo != None):
             datos = get_torneos()
             maxid = get_next_idTorneo()
-            return json.dumps({'ok': 'Torneo agregado con éxito', 'list' : datos, 'maxid' : maxid})
+            reglas = get_reglas()
+            return json.dumps({'ok': 'Torneo agregado con éxito', 'list' : datos, 'maxid' : maxid, 'rules' : reglas})
         else:
             return json.dumps({'error': 'No se pudo agregar el torneo'})
     if(action == 'deleteTorneo'):
@@ -129,8 +131,10 @@ def update_data():
         torneo = delete_torneo(id)
         if(torneo != None):
             datos = get_torneos()
+
             maxid = get_next_idTorneo()
-            return json.dumps({'list': datos, 'maxid' : maxid})
+            rules = get_reglas()
+            return json.dumps({'list': datos, 'maxid' : maxid, 'rules' : rules})
         else:
             return json.dumps({'error': 'No se pudo eliminar el torneo'})
     if(action == 'updateTorneo'):
@@ -143,13 +147,15 @@ def update_data():
         consola = request.json.get("console", None)
         correo = request.json.get("email", None)
         estatus =  request.json.get("status", None)
-        print(idTorneo)
+        reglas = request.json.get("rules", None)
         torneo = update_torneo(idTorneo, '', '', num_part, juego, inicio,
                                fin, nombre, consola, correo, estatus)
+        update_regla(idTorneo, reglas)
         if(torneo != None):
             datos = get_torneos()
             maxid = get_next_idTorneo()
-            return json.dumps({'data': 'success', 'list' : datos, 'maxid' : maxid})
+            rules = get_reglas()
+            return json.dumps({'data': 'success', 'list' : datos, 'maxid' : maxid, 'rules' : rules})
         else:
             return json.dumps({'error': 'No se pudo actualizar el torneo'})
     if(action == 'deleteAccount'):
