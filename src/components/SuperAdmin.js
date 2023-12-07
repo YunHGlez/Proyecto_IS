@@ -23,6 +23,7 @@ const SuperAdmin = (props) => {
     } else {
       setAdmins(data.list);
       setMaxID(data.maxid);
+      sessionStorage.setItem("listData", JSON.stringify(data.list))
       alert('Administrador agregado con éxito');
     }
   }
@@ -45,6 +46,7 @@ const SuperAdmin = (props) => {
       return 1;
     } else {
       setAdmins(data.list);
+      sessionStorage.setItem("listData", JSON.stringify(data.list))
         alert('Administrador eliminado con éxito');
       return 0;
     }
@@ -69,6 +71,7 @@ const SuperAdmin = (props) => {
       return 1
     } else {
       setAdmins(data.list);
+      sessionStorage.setItem("listData", JSON.stringify(data.list))
       alert('Administrador actualizado con éxito');
       return 0
     }

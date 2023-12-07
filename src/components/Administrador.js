@@ -66,7 +66,7 @@ const Administrador = (props) => {
       method:'POST',
       body: JSON.stringify({'idTorneo' : torneo.idTorneo, action : 'updateTorneo', 'numParticipantes': torneo.numParticipantes,
       'game' : torneo.juego, 'initDate': torneo.fechaInicio, 'endDate' : torneo.fechaFin,
-      'name' : torneo.nombreTorneo, 'console' : torneo.consola, 'email': torneo.correo, 'rules' : rules }),
+      'name' : torneo.nombreTorneo, 'console' : torneo.consola, 'email': torneo.correo, 'estatus' : torneo.estatus, 'rules' : rules }),
       headers: {
         'Content-Type':'application/json'
       }
@@ -76,6 +76,7 @@ const Administrador = (props) => {
       alert("ERROR: " + data.error);
       return 1
     } else {
+      console.log(data)
       setTorneos(data.list);
       setrules(data.rules);
       setMaxID(data.maxid);

@@ -77,7 +77,7 @@ def add_torneo(numParticipantes='', juego='', fechaInicio='', fechaFin='',
         return None
     if(correoUsuario == ''):
         return None
-    if(estatus != 'Finalizado' and estatus != 'En curso' and estatus != 'No iniciado'):
+    if(estatus != 'activo' and estatus != 'finalizado' and estatus != 'en proceso'):
         return None
 
     torneo = Torneo(participantes, juego, fechaInicio, fechaFin,
@@ -128,6 +128,8 @@ def update_torneo(idTorneo='', nombreTorneo='', nuevoID='', numParticipantes='',
             torneo.consola = consola
         if(correoUsuario != ''):
             torneo.correo = correoUsuario
+        if(estatus != ''):
+            torneo.estatus = estatus
         try:
             db.session.commit()
         except:

@@ -115,11 +115,11 @@ def update_data():
         consola = request.json.get("console", None)
         correo = request.json.get("email", None)
         reglas = request.json.get("rules", None)
-        estatus = 'No iniciado'
+        estatus = 'activo'
         torneo = add_torneo(num_part, juego, inicio, fin, nombre, consola, correo, estatus)
-        for regla in reglas:
-            add_regla(torneo.idTorneo, regla['rule'])
         if(torneo != None):
+            for regla in reglas:
+                add_regla(torneo.idTorneo, regla['rule'])
             datos = get_torneos()
             maxid = get_next_idTorneo()
             reglas = get_reglas()
@@ -146,7 +146,8 @@ def update_data():
         nombre = request.json.get("name", None)
         consola = request.json.get("console", None)
         correo = request.json.get("email", None)
-        estatus =  request.json.get("status", None)
+        estatus =  request.json.get("estatus", None)
+        print(estatus)
         reglas = request.json.get("rules", None)
         torneo = update_torneo(idTorneo, '', '', num_part, juego, inicio,
                                fin, nombre, consola, correo, estatus)

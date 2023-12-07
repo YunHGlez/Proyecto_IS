@@ -21,12 +21,13 @@ function App() {
     sessionStorage.setItem("listData", JSON.stringify(list))
     sessionStorage.setItem("userData", user)
     sessionStorage.setItem("userID", id)
-    sessionStorage.setItem("rules", JSON.stringify(reglas))
-
     setLista(list)
     setUser(user)
     setId(id)
-    setRules(reglas)
+    if(reglas !== undefined){
+      sessionStorage.setItem("rules", JSON.stringify(reglas))
+      setRules(reglas)
+    }
   };
 
   const logout = () => {

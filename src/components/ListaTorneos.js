@@ -198,8 +198,8 @@ export default function ListaTorneos(props) {
             <select id="searchStatus" value={filterStatus}
             onChange={(e) => onFilterStatusChange(e.target.value)}>
                       <option value=""> - </option>
-                      <option value="no iniciado">No iniciado</option>
-                      <option value="en curso">En curso</option>
+                      <option value="activo">Activo</option>
+                      <option value="en proceso">En proceso</option>
                       <option value="finalizado">Finalizado</option>
                   </select>
           </div>   
@@ -218,7 +218,7 @@ export default function ListaTorneos(props) {
     const [editInput, setEditInput] = useState(false);
 
     let content;
-    let rulesRows = [];
+    let rulesRows = [];searchStatus
     if(editInput){
       content = <UpdateFields torneo={torneo} rules={rules} key={torneo.id}/>
     }
@@ -396,8 +396,8 @@ export default function ListaTorneos(props) {
             <td><input type='email' placeholder="Nuevo correo" onChange={handleEmailChange} required/></td>
             <td><select id="searchStatus" onChange={handleStatusChange}>
                       <option value=""> - </option>
-                      <option value="no iniciado">No iniciado</option>
-                      <option value="en curso">En curso</option>
+                      <option value="activo">Activo</option>
+                      <option value="en proceso">En proceso</option>
                       <option value="finalizado">Finalizado</option>
             </select></td>
             <td className='update'><button className='buttonJJ' 
