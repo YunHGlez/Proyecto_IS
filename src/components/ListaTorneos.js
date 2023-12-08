@@ -218,7 +218,7 @@ export default function ListaTorneos(props) {
     const [editInput, setEditInput] = useState(false);
 
     let content;
-    let rulesRows = [];searchStatus
+    let rulesRows = [];
     if(editInput){
       content = <UpdateFields torneo={torneo} rules={rules} key={torneo.id}/>
     }

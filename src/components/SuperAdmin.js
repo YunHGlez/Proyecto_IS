@@ -70,6 +70,7 @@ const SuperAdmin = (props) => {
       alert("ERROR: " + data.error);
       return 1
     } else {
+      console.log(data)
       setAdmins(data.list);
       sessionStorage.setItem("listData", JSON.stringify(data.list))
       alert('Administrador actualizado con éxito');
